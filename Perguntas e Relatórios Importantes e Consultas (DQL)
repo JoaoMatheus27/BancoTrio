@@ -1,0 +1,117 @@
+
+
+
+ -- Perguntas/Relatórios
+-- Quais são os detalhes dos clientes e seus respectivos telefones e endereços?
+SELECT c.nome, c.email, t.numero AS telefone, e.cidade, e.uf
+FROM `mydb`.`Cliente` c
+JOIN `mydb`.`Telefone` t ON c.Telefone_idTelefone = t.idTelefone
+JOIN `mydb`.`Endereco` e ON c.Endereco_idEndereco = e.idEndereco;
+
+-- Quais vendas foram realizadas em uma data específica?
+SELECT v.idVenda, v.data, v.valor, c.nome
+FROM `mydb`.`Venda` v
+JOIN `mydb`.`Cliente` c ON v.Cliente_cpf = c.cpf
+WHERE v.data = '2024-01-15';
+
+-- Quais produtos foram vendidos em cada venda?
+SELECT v.idVenda, p.nome, vp.valor
+FROM `mydb`.`Venda` v
+JOIN `mydb`.`Venda_has_Produto` vp ON v.idVenda = vp.Venda_idVenda
+JOIN `mydb`.`Produto` p ON vp.Produto_idProduto = p.idProduto;
+
+-- Qual o total de vendas por cliente?
+SELECT c.nome, SUM(v.valor) AS total_vendas
+FROM `mydb`.`Venda` v
+JOIN `mydb`.`Cliente` c ON v.Cliente_cpf = c.cpf
+GROUP BY c.nome;
+
+-- Quais funcionários estão associados a cada departamento?
+SELECT f.nome AS funcionario, d.nome AS departamento
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Departamento` d ON f.Departamento_idDepartamento = d.idDepartamento;
+
+-- Qual é a lista de dependentes de cada funcionário?
+SELECT f.nome AS funcionario, d.nome AS dependente
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Dependente` d ON f.cpf = d.Funcionario_cpf;
+
+-- Quais promoções estão ativas atualmente?
+SELECT *
+FROM `mydb`.`Promocao`
+WHERE CURDATE() BETWEEN dataInicio AND dataFim;
+
+-- Quais fornecedores estão associados a produtos específicos?
+SELECT f.nome AS fornecedor, p.nome AS produto
+FROM `mydb`.`Fornecedor` f
+JOIN `mydb`.`Produto` p ON f.idFornecedor = p.Fornecedor_idFornecedor;
+
+-- Qual é o total de compras por fornecedor?
+SELECT f.nome, SUM(c.frete) AS total_compras
+FROM `mydb`.`Compra` c
+JOIN `mydb`.`Fornecedor` f ON c.Fornecedor_idFornecedor = f.idFornecedor
+GROUP BY f.nome;
+
+-- Qual o salário médio por cargo?
+SELECT c.nome, AVG(f.salario) AS salario_medio
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Cargo` c ON f.Cargo_cbo = c.cbo
+GROUP BY c.nome;
+
+-- Quais são os produtos que não foram vendidos?
+SELECT p.nome
+FROM `mydb`.`Produto` p
+LEFT JOIN `mydb`.`Venda_has_Produto` vp ON p.idProduto = vp.Produto_idProduto
+WHERE vp.Produto_idProduto IS NULL;
+
+-- Qual o histórico de férias de cada funcionário?
+SELECT f.nome, f.dataNasc, fer.dataInicio, fer.dataFim
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Ferias` fer ON f.cpf = fer.Funcionario_cpf;
+
+-- Quais são as vendas realizadas por um determinado funcionário?
+SELECT v.idVenda, v.data, v.valor
+FROM `mydb`.`Venda` v
+JOIN `mydb`.`Venda_has_Produto` vp ON v.idVenda = vp.Venda_idVenda
+WHERE vp.Funcionario_cpf = 23456789012;
+
+-- Qual é o total de despesas (frete) em compras realizadas?
+SELECT SUM(frete) AS total_frete
+FROM `mydb`.`Compra`;
+
+-- Quais produtos têm desconto em promoção?
+SELECT p.nome, pr.descricao
+FROM `mydb`.`Produto` p
+JOIN `mydb`.`Venda_has_Produto` vp ON p.idProduto = vp.Produto_idProduto
+JOIN `mydb`.`Promocao` pr ON vp.desconto = pr.cupomDesconto;
+
+-- Quais clientes realizaram compras em um intervalo de datas específico?
+SELECT DISTINCT c.nome
+FROM `mydb`.`Cliente` c
+JOIN `mydb`.`Venda` v ON c.cpf = v.Cliente_cpf
+WHERE v.data BETWEEN '2024-01-01' AND '2024-01-31';
+
+-- Quais endereços pertencem a clientes que têm o mesmo telefone?
+SELECT e.cidade, e.uf
+FROM `mydb`.`Endereco` e
+JOIN `mydb`.`Cliente` c ON e.idEndereco = c.Endereco_idEndereco
+JOIN `mydb`.`Telefone` t ON c.Telefone_idTelefone = t.idTelefone
+GROUP BY e.cidade, e.uf, t.numero
+HAVING COUNT(*) > 1;
+
+-- Quais promoções foram utilizadas nas compras realizadas?
+SELECT DISTINCT pr.descricao
+FROM `mydb`.`Compra` c
+JOIN `mydb`.`Promocao` pr ON c.Promocao_cupomDesconto = pr.cupomDesconto;
+
+-- Quais funcionários têm dependentes registrados?
+SELECT f.nome
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Dependente` d ON f.cpf = d.Funcionario_cpf
+GROUP BY f.nome;
+
+-- Qual é o total de vendas em um determinado mês?
+SELECT MONTH(v.data) AS mes, SUM(v.valor) AS total_vendas
+FROM `mydb`.`Venda` v
+WHERE MONTH(v.data) = 1 AND YEAR(v.data) = 2024
+GROUP BY MONTH(v.data);
