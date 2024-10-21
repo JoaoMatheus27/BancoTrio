@@ -1,0 +1,210 @@
+-- -----------------------------------------------------
+-- Inserts for `Telefone`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Telefone` (`numero`) VALUES
+('123456789'),
+('987654321'),
+('555123456'),
+('444987654'),
+('333222111'),
+('222333444'),
+('111555666'),
+('666777888'),
+('999888777'),
+('000111222');
+
+-- -----------------------------------------------------
+-- Inserts for `Endereco`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Endereco` (`UF`, `cidade`, `bairro`, `rua`, `cep`, `numero`) VALUES
+('SP', 'São Paulo', 'Centro', 'Rua A', 12345678, 10),
+('RJ', 'Rio de Janeiro', 'Copacabana', 'Avenida B', 23456789, 20),
+('MG', 'Belo Horizonte', 'Savassi', 'Rua C', 34567890, 30),
+('RS', 'Porto Alegre', 'Centro', 'Rua D', 45678901, 40),
+('PR', 'Curitiba', 'Batel', 'Rua E', 56789012, 50),
+('BA', 'Salvador', 'Barra', 'Avenida F', 67890123, 60),
+('CE', 'Fortaleza', 'Aldeota', 'Rua G', 78901234, 70),
+('DF', 'Brasília', 'Asa Sul', 'Rua H', 89012345, 80),
+('SC', 'Florianópolis', 'Centro', 'Rua I', 90123456, 90),
+('SP', 'Campinas', 'Cambuí', 'Rua J', 01234567, 100);
+
+-- -----------------------------------------------------
+-- Inserts for `Cliente`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Cliente` (`cpf`, `nome`, `email`, `Telefone_idTelefone`, `Endereco_idEndereco`) VALUES
+(12345678901, 'João Silva', 'joao@example.com', 1, 1),
+(23456789012, 'Maria Souza', 'maria@example.com', 2, 2),
+(34567890123, 'Carlos Pereira', 'carlos@example.com', 3, 3),
+(45678901234, 'Ana Oliveira', 'ana@example.com', 4, 4),
+(56789012345, 'Roberto Santos', 'roberto@example.com', 5, 5),
+(67890123456, 'Fernanda Lima', 'fernanda@example.com', 6, 6),
+(78901234567, 'Lucas Martins', 'lucas@example.com', 7, 7),
+(89012345678, 'Patrícia Costa', 'patricia@example.com', 8, 8),
+(90123456789, 'Mariana Almeida', 'mariana@example.com', 9, 9),
+(11234567890, 'Ricardo Gomes', 'ricardo@example.com', 10, 10);
+
+-- -----------------------------------------------------
+-- Inserts for `Venda`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Venda` (`data`, `desconto`, `valor`, `Cliente_cpf`) VALUES
+('2024-01-01', 10, 100.00, 12345678901),
+('2024-01-02', 5, 200.00, 23456789012),
+('2024-01-03', 15, 150.00, 34567890123),
+('2024-01-04', 0, 300.00, 45678901234),
+('2024-01-05', 20, 250.00, 56789012345),
+('2024-01-06', 10, 400.00, 67890123456),
+('2024-01-07', 5, 500.00, 78901234567),
+('2024-01-08', 0, 600.00, 89012345678),
+('2024-01-09', 30, 350.00, 90123456789),
+('2024-01-10', 25, 450.00, 11234567890);
+
+-- -----------------------------------------------------
+-- Inserts for `FormaPag`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`FormaPag` (`tipo`, `valor`, `parcela`, `Venda_idVenda`) VALUES
+('Cartão de Crédito', 100.00, 1, 1),
+('Cartão de Débito', 200.00, 1, 2),
+('Boleto', 150.00, 1, 3),
+('Transferência', 300.00, 1, 4),
+('Pix', 250.00, 1, 5),
+('Cartão de Crédito', 400.00, 2, 6),
+('Cartão de Débito', 500.00, 3, 7),
+('Boleto', 600.00, 2, 8),
+('Transferência', 350.00, 1, 9),
+('Pix', 450.00, 2, 10);
+
+-- -----------------------------------------------------
+-- Inserts for `Cargo`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Cargo` (`faixaSalario`, `nome`) VALUES
+(1500.00, 'Analista'),
+(2000.00, 'Gerente'),
+(2500.00, 'Desenvolvedor'),
+(3000.00, 'Coordenador'),
+(3500.00, 'Diretor'),
+(4000.00, 'Estagiário'),
+(4500.00, 'Consultor'),
+(5000.00, 'Arquiteto'),
+(5500.00, 'Gerente de Projetos'),
+(6000.00, 'Analista de Sistemas');
+
+-- -----------------------------------------------------
+-- Inserts for `Departamento`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Departamento` (`nome`, `email`, `local`, `Telefone_idTelefone`, `Endereco_idEndereco`) VALUES
+('TI', 'ti@example.com', 'Prédio A', 1, 1),
+('RH', 'rh@example.com', 'Prédio B', 2, 2),
+('Financeiro', 'financeiro@example.com', 'Prédio C', 3, 3),
+('Marketing', 'marketing@example.com', 'Prédio D', 4, 4),
+('Vendas', 'vendas@example.com', 'Prédio E', 5, 5),
+('Suporte', 'suporte@example.com', 'Prédio F', 6, 6),
+('Logística', 'logistica@example.com', 'Prédio G', 7, 7),
+('Pesquisa', 'pesquisa@example.com', 'Prédio H', 8, 8),
+('Desenvolvimento', 'desenvolvimento@example.com', 'Prédio I', 9, 9),
+('Operações', 'operacoes@example.com', 'Prédio J', 10, 10);
+
+-- -----------------------------------------------------
+-- Inserts for `Funcionario`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Funcionario` (`cpf`, `nome`, `nomeSocial`, `dataNasc`, `email`, `estadoCivil`, `sexo`, `ch`, `salario`, `Cargo_cbo`, `Departamento_idDepartamento`, `Telefone_idTelefone`, `Endereco_idEndereco`) VALUES
+(12345678901, 'Fernando Almeida', 'Fern', '1990-05-01', 'fernando@example.com', 'Solteiro', 'Masculino', '123456', 3000.00, 1, 1, 1, 1),
+(23456789012, 'Ana Paula', 'Ana', '1985-07-12', 'ana@example.com', 'Casada', 'Feminino', '234567', 3500.00, 2, 2, 2, 2),
+(34567890123, 'Carlos Eduardo', 'Carl', '1992-03-23', 'carlos@example.com', 'Solteiro', 'Masculino', '345678', 3200.00, 3, 3, 3, 3),
+(45678901234, 'Juliana Ferreira', 'Ju', '1988-09-15', 'juliana@example.com', 'Casada', 'Feminino', '456789', 4000.00, 4, 4, 4, 4),
+(56789012345, 'Roberto Carlos', 'Robo', '1975-12-30', 'roberto@example.com', 'Divorciado', 'Masculino', '567890', 5000.00, 5, 5, 5, 5),
+(67890123456, 'Luana Silva', 'Lua', '1995-10-20', 'luana@example.com', 'Solteira', 'Feminino', '678901', 2900.00, 1, 1, 6, 6),
+(78901234567, 'Lucas Martins', 'Lu', '1991-04-11', 'lucas@example.com', 'Casado', 'Masculino', '789012', 3700.00, 2, 2, 7, 7),
+(89012345678, 'Fernanda Lima', 'Fern', '1980-02-29', 'fernanda@example.com', 'Viúva', 'Feminino', '890123', 4100.00, 3, 3, 8, 8),
+(90123456789, 'Gabriel Nascimento', 'Gab', '1987-08-16', 'gabriel@example.com', 'Solteiro', 'Masculino', '901234', 4300.00, 4, 4, 9, 9),
+(11234567890, 'Patricia Campos', 'Pat', '1993-11-05', 'patricia@example.com', 'Casada', 'Feminino', '112345', 4500.00, 5, 5, 10, 10);
+
+-- -----------------------------------------------------
+-- Inserts for `Dependente`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Dependente` (`cpf`, `nome`, `dataNasc`, `Funcionario_cpf`) VALUES
+(98765432100, 'Carlos Jr', '2010-01-01', 12345678901),
+(87654321011, 'Ana Clara', '2012-02-02', 23456789012),
+(76543210922, 'Fernando Silva', '2015-03-03', 34567890123),
+(65432109833, 'Maria Eduarda', '2018-04-04', 45678901234),
+(54321098744, 'Roberto Neto', '2020-05-05', 56789012345),
+(43210987655, 'Luana Freitas', '2021-06-06', 67890123456),
+(32109876566, 'Gabriel Lima', '2019-07-07', 78901234567),
+(21098765477, 'Patricia Santos', '2017-08-08', 89012345678),
+(10987654388, 'Juliana Costa', '2022-09-09', 90123456789),
+(99876543299, 'Lucas Almeida', '2023-10-10', 11234567890);
+
+-- -----------------------------------------------------
+-- Inserts for `Ferias`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Ferias` (`dataFim`, `dataInicio`, `anoRef`, `qtdDias`, `Funcionario_cpf`) VALUES
+('2024-01-10', '2024-01-01', 2024, 10, 12345678901),
+('2024-02-10', '2024-02-01', 2024, 10, 23456789012),
+('2024-03-10', '2024-03-01', 2024, 10, 34567890123),
+('2024-04-10', '2024-04-01', 2024, 10, 45678901234),
+('2024-05-10', '2024-05-01', 2024, 10, 56789012345),
+('2024-06-10', '2024-06-01', 2024, 10, 67890123456),
+('2024-07-10', '2024-07-01', 2024, 10, 78901234567),
+('2024-08-10', '2024-08-01', 2024, 10, 89012345678),
+('2024-09-10', '2024-09-01', 2024, 10, 90123456789),
+('2024-10-10', '2024-10-01', 2024, 10, 11234567890);
+
+-- -----------------------------------------------------
+-- Inserts for `Produto`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Produto` (`descricao`, `nome`, `preço`, `tamanho`, `cor`, `marca`, `Fornecedor_idFornecedor`) VALUES
+('Produto 1', 'Camisa', 49.90, 1.0, 'Azul', 'Marca A', 1),
+('Produto 2', 'Calça', 79.90, 1.0, 'Preto', 'Marca B', 2),
+('Produto 3', 'Tênis', 129.90, 1.0, 'Branco', 'Marca C', 1),
+('Produto 4', 'Jaqueta', 199.90, 1.0, 'Verde', 'Marca D', 3),
+('Produto 5', 'Vestido', 89.90, 1.0, 'Vermelho', 'Marca E', 2),
+('Produto 6', 'Short', 39.90, 1.0, 'Cinza', 'Marca F', 1),
+('Produto 7', 'Blusa', 59.90, 1.0, 'Amarelo', 'Marca G', 2),
+('Produto 8', 'Saia', 49.90, 1.0, 'Rosa', 'Marca H', 3),
+('Produto 9', 'Bermuda', 29.90, 1.0, 'Bege', 'Marca I', 1),
+('Produto 10', 'Tênis Esportivo', 149.90, 1.0, 'Preto', 'Marca J', 2);
+
+
+-- -----------------------------------------------------
+-- Inserts for `Venda_has_Produto`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Venda_has_Produto` (`valor`, `desconto`, `dataVenda`, `Funcionario_cpf`, `Produto_idProduto`, `Venda_idVenda`) VALUES
+(49.90, 0, '2024-01-01', 12345678901, 1, 1),
+(79.90, 5, '2024-01-02', 23456789012, 2, 2),
+(129.90, 15, '2024-01-03', 34567890123, 3, 3),
+(199.90, 0, '2024-01-04', 45678901234, 4, 4),
+(89.90, 20, '2024-01-05', 56789012345, 5, 5),
+(39.90, 10, '2024-01-06', 67890123456, 6, 6),
+(59.90, 0, '2024-01-07', 78901234567, 7, 7),
+(49.90, 30, '2024-01-08', 89012345678, 8, 8),
+(29.90, 0, '2024-01-09', 90123456789, 9, 9),
+(149.90, 25, '2024-01-10', 11234567890, 10, 10);
+
+-- -----------------------------------------------------
+-- Inserts for `Promocao`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Promocao` (`dataInicio`, `dataFim`, `descricao`) VALUES
+('2024-01-01', '2024-01-10', 'Promoção de Ano Novo'),
+('2024-02-01', '2024-02-14', 'Promoção de Carnaval'),
+('2024-03-01', '2024-03-31', 'Promoção de Verão'),
+('2024-04-01', '2024-04-30', 'Promoção de Páscoa'),
+('2024-05-01', '2024-05-31', 'Promoção do Dia das Mães'),
+('2024-06-01', '2024-06-30', 'Promoção de São João'),
+('2024-07-01', '2024-07-31', 'Promoção de Férias'),
+('2024-08-01', '2024-08-31', 'Promoção de Dia dos Pais'),
+('2024-09-01', '2024-09-30', 'Promoção de Primavera'),
+('2024-10-01', '2024-10-31', 'Promoção de Halloween');
+
+-- -----------------------------------------------------
+-- Inserts for `Fornecedor`
+-- -----------------------------------------------------
+INSERT INTO `mydb`.`Fornecedor` (`nome`, `cnpj`, `email`, `Telefone_idTelefone`, `Endereco_idEndereco`) VALUES
+('Fornecedor A', 12345678000195, 'fornecedora@example.com', 1, 1),
+('Fornecedor B', 23456789000198, 'fornecedorb@example.com', 2, 2),
+('Fornecedor C', 34567890000191, 'fornecedorc@example.com', 3, 3),
+('Fornecedor D', 45678901000199, 'fornecedord@example.com', 4, 4),
+('Fornecedor E', 56789012000193, 'fornecedore@example.com', 5, 5),
+('Fornecedor F', 67890123000196, 'fornecedorf@example.com', 6, 6),
+('Fornecedor G', 78901234000194, 'fornecedorg@example.com', 7, 7),
+('Fornecedor H', 89012345000197, 'fornecedorh@example.com', 8, 8),
+('Fornecedor I', 90123456000190, 'fornecedorj@example.com', 9, 9),
+('Fornecedor J', 11234567000199, 'fornecedorj@example.com', 10, 10);
