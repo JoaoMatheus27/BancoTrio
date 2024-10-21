@@ -1,0 +1,355 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8;
+USE `mydb`;
+
+DESCRIBE `mydb`.`Produto`;
+
+
+
+
+-- Remover tabelas existentes
+DROP TABLE IF EXISTS `mydb`.`Venda_has_Produto`;
+DROP TABLE IF EXISTS `mydb`.`Compra_has_Produto`;
+DROP TABLE IF EXISTS `mydb`.`Compra`;
+DROP TABLE IF EXISTS `mydb`.`Fornecedor`;
+DROP TABLE IF EXISTS `mydb`.`Promocao`;
+DROP TABLE IF EXISTS `mydb`.`Venda`;
+DROP TABLE IF EXISTS `mydb`.`Produto`;
+DROP TABLE IF EXISTS `mydb`.`Ferias`;
+DROP TABLE IF EXISTS `mydb`.`Dependente`;
+DROP TABLE IF EXISTS `mydb`.`Funcionario`;
+DROP TABLE IF EXISTS `mydb`.`Departamento`;
+DROP TABLE IF EXISTS `mydb`.`Cargo`;
+DROP TABLE IF EXISTS `mydb`.`FormaPag`;
+DROP TABLE IF EXISTS `mydb`.`Cliente`;
+DROP TABLE IF EXISTS `mydb`.`Endereco`;
+DROP TABLE IF EXISTS `mydb`.`Telefone`;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8;
+USE `mydb`;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Telefone`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Telefone` (
+  `idTelefone` INT NOT NULL AUTO_INCREMENT,
+  `numero` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idTelefone`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Endereco`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Endereco` (
+  `UF` VARCHAR(12) NOT NULL,
+  `cidade` VARCHAR(45) NOT NULL,
+  `bairro` VARCHAR(45) NOT NULL,
+  `rua` VARCHAR(45) NOT NULL,
+  `cep` INT NOT NULL,
+  `numero` INT NOT NULL,
+  `idEndereco` INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`idEndereco`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Cliente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Cliente` (
+  `cpf` BIGINT NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `Telefone_idTelefone` INT NOT NULL,
+  `Endereco_idEndereco` INT NOT NULL,
+  PRIMARY KEY (`cpf`),
+  FOREIGN KEY (`Telefone_idTelefone`) REFERENCES `mydb`.`Telefone` (`idTelefone`),
+  FOREIGN KEY (`Endereco_idEndereco`) REFERENCES `mydb`.`Endereco` (`idEndereco`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Venda`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Venda` (
+  `idVenda` INT NOT NULL AUTO_INCREMENT,
+  `data` DATE NOT NULL,
+  `desconto` INT NOT NULL,
+  `valor` DECIMAL(7,2) NOT NULL,
+  `Cliente_cpf` BIGINT NOT NULL,
+  PRIMARY KEY (`idVenda`),
+  FOREIGN KEY (`Cliente_cpf`) REFERENCES `mydb`.`Cliente` (`cpf`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`FormaPag`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`FormaPag` (
+  `idPag` INT NOT NULL AUTO_INCREMENT,
+  `tipo` VARCHAR(45) NOT NULL,
+  `valor` DECIMAL(7,2) NOT NULL,
+  `parcela` INT NOT NULL,
+  `Venda_idVenda` INT NOT NULL,
+  PRIMARY KEY (`idPag`),
+  FOREIGN KEY (`Venda_idVenda`) REFERENCES `mydb`.`Venda` (`idVenda`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Cargo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Cargo` (
+  `cbo` INT NOT NULL AUTO_INCREMENT,
+  `faixaSalario` DECIMAL(7,2) NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`cbo`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Departamento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Departamento` (
+  `idDepartamento` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `local` VARCHAR(45) NOT NULL,
+  `Telefone_idTelefone` INT NOT NULL,
+  `Endereco_idEndereco` INT NOT NULL,
+  PRIMARY KEY (`idDepartamento`),
+  FOREIGN KEY (`Telefone_idTelefone`) REFERENCES `mydb`.`Telefone` (`idTelefone`),
+  FOREIGN KEY (`Endereco_idEndereco`) REFERENCES `mydb`.`Endereco` (`idEndereco`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Funcionario`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Funcionario` (
+  `cpf` BIGINT NOT NULL,
+  `nome` VARCHAR(65) NOT NULL,
+  `nomeSocial` VARCHAR(45) NULL,
+  `dataNasc` DATE NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `estadoCivil` VARCHAR(15) NOT NULL,
+  `sexo` VARCHAR(25) NOT NULL,
+  `ch` VARCHAR(45) NOT NULL,
+  `salario` DECIMAL(7,2) NOT NULL,
+  `Cargo_cbo` INT NOT NULL,
+  `Departamento_idDepartamento` INT NOT NULL,
+  `Telefone_idTelefone` INT NOT NULL,
+  `Endereco_idEndereco` INT NOT NULL,
+  PRIMARY KEY (`cpf`),
+  FOREIGN KEY (`Cargo_cbo`) REFERENCES `mydb`.`Cargo` (`cbo`),
+  FOREIGN KEY (`Departamento_idDepartamento`) REFERENCES `mydb`.`Departamento` (`idDepartamento`),
+  FOREIGN KEY (`Telefone_idTelefone`) REFERENCES `mydb`.`Telefone` (`idTelefone`),
+  FOREIGN KEY (`Endereco_idEndereco`) REFERENCES `mydb`.`Endereco` (`idEndereco`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Dependente`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Dependente` (
+  `cpf` BIGINT NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `dataNasc` DATE NOT NULL,
+  `Funcionario_cpf` BIGINT NOT NULL,
+  PRIMARY KEY (`cpf`),
+  FOREIGN KEY (`Funcionario_cpf`) REFERENCES `mydb`.`Funcionario` (`cpf`)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Compra`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Compra` (
+    `idCompra` INT NOT NULL AUTO_INCREMENT,
+    `dataPag` DATE NOT NULL,
+    `dataCompra` DATE NOT NULL,
+    `desconto` INT NOT NULL,
+    `notaFiscal` VARCHAR(45) NOT NULL,
+    `frete` DECIMAL(6,2) NOT NULL,
+    `dataEntrega` DATETIME NOT NULL,
+    `dataVencimento` DATETIME NOT NULL,
+    `Promocao_cupomDesconto` INT NOT NULL,
+    `Fornecedor_idFornecedor` INT NOT NULL,
+    PRIMARY KEY (`idCompra`),
+    FOREIGN KEY (`Promocao_cupomDesconto`) REFERENCES `mydb`.`Promocao` (`cupomDesconto`),
+    FOREIGN KEY (`Fornecedor_idFornecedor`) REFERENCES `mydb`.`Fornecedor` (`idFornecedor`)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Ferias`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Ferias` (
+  `idFerias` INT NOT NULL AUTO_INCREMENT,
+  `dataFim` DATE NOT NULL,
+  `dataInicio` DATE NOT NULL,
+  `anoRef` YEAR NOT NULL,
+  `qtdDias` INT NOT NULL,
+  `Funcionario_cpf` BIGINT NOT NULL,
+  PRIMARY KEY (`idFerias`),
+  FOREIGN KEY (`Funcionario_cpf`) REFERENCES `mydb`.`Funcionario` (`cpf`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`produto` (
+  `idproduto` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(45) NOT NULL,
+  `nome` VARCHAR(45) NOT NULL,
+  `preço` DECIMAL(7,2) NOT NULL,
+  `tamanho` DECIMAL(7,2) NOT NULL,
+  `cor` VARCHAR(45) NOT NULL,
+  `marca` VARCHAR(45) NOT NULL,
+  `Fornecedor_idFornecedor` INT NOT NULL,
+  FOREIGN KEY (`Fornecedor_idFornecedor`) REFERENCES `mydb`.`Fornecedor` (`idFornecedor`)
+) ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Venda_has_Produto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Venda_has_Produto` (
+  `valor` DECIMAL(7,2) NOT NULL,
+  `desconto` INT NOT NULL,
+  `dataVenda` DATE NOT NULL,
+  `Funcionario_cpf` BIGINT NOT NULL,
+  `Produto_idProduto` INT NOT NULL,
+  `Venda_idVenda` INT NOT NULL,
+  PRIMARY KEY (`Venda_idVenda`, `Produto_idProduto`, `Funcionario_cpf`),
+  FOREIGN KEY (`Funcionario_cpf`) REFERENCES `mydb`.`Funcionario` (`cpf`),
+  FOREIGN KEY (`Produto_idProduto`) REFERENCES `mydb`.`Produto` (`idProduto`),
+  FOREIGN KEY (`Venda_idVenda`) REFERENCES `mydb`.`Venda` (`idVenda`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Promocao`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Promocao` (
+  `cupomDesconto` INT NOT NULL AUTO_INCREMENT,
+  `dataInicio` DATE NOT NULL,
+  `dataFim` DATE NOT NULL,
+  `descricao` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`cupomDesconto`)
+) ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Fornecedor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`Fornecedor` (
+  `idFornecedor` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `cnpj` BIGINT NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `Telefone_idTelefone` INT NOT NULL,
+  `Endereco_idEndereco` INT NOT NULL,
+  PRIMARY KEY (`idFornecedor`),
+  FOREIGN KEY (`Telefone_idTelefone`) REFERENCES `mydb`.`Telefone` (`idTelefone`),
+  FOREIGN KEY (`Endereco_idEndereco`) REFERENCES `mydb`.`Endereco` (`idEndereco`)
+) ENGINE = InnoDB;
+
+
+
+-- -----------------------------------------------------
+-- Drop Views if they exist
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS `mydb`.`vCliente`;
+DROP VIEW IF EXISTS `mydb`.`vFuncionario`;
+DROP VIEW IF EXISTS `mydb`.`vVenda`;
+DROP VIEW IF EXISTS `mydb`.`vProduto`;
+DROP VIEW IF EXISTS `mydb`.`vFornecedor`;
+DROP VIEW IF EXISTS `mydb`.`vPromocao`;
+DROP VIEW IF EXISTS `mydb`.`vFerias`;
+DROP VIEW IF EXISTS `mydb`.`vDependente`;
+DROP VIEW IF EXISTS `mydb`.`vVendaProduto`;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vCliente`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vCliente` AS
+SELECT c.cpf, c.nome, c.email, t.numero AS telefone, e.cidade, e.uf
+FROM `mydb`.`Cliente` c
+JOIN `mydb`.`Telefone` t ON c.Telefone_idTelefone = t.idTelefone
+JOIN `mydb`.`Endereco` e ON c.Endereco_idEndereco = e.idEndereco;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vFuncionario`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vFuncionario` AS
+SELECT f.cpf, f.nome, f.email, d.nome AS departamento, c.nome AS cargo
+FROM `mydb`.`Funcionario` f
+JOIN `mydb`.`Departamento` d ON f.Departamento_idDepartamento = d.idDepartamento
+JOIN `mydb`.`Cargo` c ON f.Cargo_cbo = c.cbo;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vVenda`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vVenda` AS
+SELECT v.idVenda, v.data, v.valor, c.nome AS cliente
+FROM `mydb`.`Venda` v
+JOIN `mydb`.`Cliente` c ON v.Cliente_cpf = c.cpf;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vProduto`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vProduto` AS
+SELECT p.idProduto, p.nome, p.preço, p.marca
+FROM `mydb`.`Produto` p;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vFornecedor`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vFornecedor` AS
+SELECT f.idFornecedor, f.nome, f.cnpj, t.numero AS telefone, e.cidade
+FROM `mydb`.`Fornecedor` f
+JOIN `mydb`.`Telefone` t ON f.Telefone_idTelefone = t.idTelefone
+JOIN `mydb`.`Endereco` e ON f.Endereco_idEndereco = e.idEndereco;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vFornecedoresProdutos`
+-- -----------------------------------------------------
+CREATE OR REPLACE VIEW `mydb`.`vFornecedoresProdutos` AS
+SELECT 
+    f.nome AS fornecedor,
+    p.nome AS produto
+FROM 
+    `mydb`.`Fornecedor` f
+JOIN 
+    `mydb`.`Produto` p ON f.idFornecedor = p.Fornecedor_idFornecedor;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vPromocao`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vPromocao` AS
+SELECT p.cupomDesconto, p.descricao, p.dataInicio, p.dataFim
+FROM `mydb`.`Promocao` p;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vFerias`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vFerias` AS
+SELECT f.nome AS funcionario, fe.dataInicio, fe.dataFim, fe.qtdDias
+FROM `mydb`.`Ferias` fe
+JOIN `mydb`.`Funcionario` f ON fe.Funcionario_cpf = f.cpf;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vDependente`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vDependente` AS
+SELECT d.cpf, d.nome, d.dataNasc, f.nome AS funcionario
+FROM `mydb`.`Dependente` d
+JOIN `mydb`.`Funcionario` f ON d.Funcionario_cpf = f.cpf;
+
+-- -----------------------------------------------------
+-- View `mydb`.`vVendaProduto`
+-- -----------------------------------------------------
+CREATE VIEW `mydb`.`vVendaProduto` AS
+SELECT vp.Venda_idVenda, p.nome AS produto, vp.valor, vp.desconto
+FROM `mydb`.`Venda_has_Produto` vp
+JOIN `mydb`.`Produto` p ON vp.Produto_idProduto = p.idProduto;
