@@ -1,0 +1,66 @@
+-- Scripts para deletar
+
+-- Deletar um cliente pelo CPF
+DELETE FROM `mydb`.`Cliente` WHERE `cpf` = 12345678901;
+
+-- Deletar um telefone específico
+DELETE FROM `mydb`.`Telefone` WHERE `idTelefone` = 1;
+
+-- Deletar um endereço pelo ID
+DELETE FROM `mydb`.`Endereco` WHERE `idEndereco` = 2;
+
+-- Deletar um produto pelo ID
+DELETE FROM `mydb`.`Produto` WHERE `idProduto` = 3;
+
+-- Deletar um funcionário pelo CPF
+DELETE FROM `mydb`.`Funcionario` WHERE `cpf` = 23456789012;
+
+-- Deletar uma venda pelo ID
+DELETE FROM `mydb`.`Venda` WHERE `idVenda` = 1;
+
+-- Deletar um fornecedor pelo CNPJ
+DELETE FROM `mydb`.`Fornecedor` WHERE `cnpj` = 12345678000195;
+
+-- Deletar um dependente pelo CPF
+DELETE FROM `mydb`.`Dependente` WHERE `cpf` = 98765432100;
+
+-- Deletar uma promoção pelo ID
+DELETE FROM `mydb`.`Promocao` WHERE `idPromocao` = 1;
+
+-- Deletar um cargo pelo nome
+DELETE FROM `mydb`.`Cargo` WHERE `nome` = 'Estagiário';
+
+
+
+-- Scripts para atualizar
+
+-- Atualizar o email de um cliente
+UPDATE `mydb`.`Cliente` SET `email` = 'novo_email@example.com' WHERE `cpf` = 12345678901;
+
+-- Atualizar o número de um telefone
+UPDATE `mydb`.`Telefone` SET `numero` = '999999999' WHERE `idTelefone` = 2;
+
+-- Atualizar a cidade de um endereço
+UPDATE `mydb`.`Endereco` SET `cidade` = 'Rio de Janeiro' WHERE `idEndereco` = 3;
+
+-- Atualizar o preço de um produto
+UPDATE `mydb`.`Produto` SET `preço` = 89.90 WHERE `idProduto` = 5;
+
+-- Atualizar o salário de um funcionário
+UPDATE `mydb`.`Funcionario` SET `salario` = 4500.00 WHERE `cpf` = 23456789012;
+
+-- Atualizar a data da venda
+UPDATE `mydb`.`Venda` SET `data` = '2024-01-15' WHERE `idVenda` = 2;
+
+-- Atualizar o nome de um fornecedor
+UPDATE `mydb`.`Fornecedor` SET `nome` = 'Fornecedor Atualizado' WHERE `cnpj` = 12345678000195;
+
+-- Atualizar a data de nascimento de um dependente
+UPDATE `mydb`.`Dependente` SET `dataNasc` = '2011-01-01' WHERE `cpf` = 98765432100;
+
+-- Atualizar a descrição de uma promoção
+UPDATE `mydb`.`Promocao` SET `descricao` = 'Promoção Especial' WHERE `idPromocao` = 1;
+
+-- Atualizar o nome de um cargo
+UPDATE `mydb`.`Cargo` SET `nome` = 'Gerente Sênior' WHERE `nome` = 'Gerente';
+
