@@ -1,0 +1,115 @@
+-- 1. View para detalhes dos clientes com telefones e endereços
+CREATE OR REPLACE VIEW `mydb`.`vCliente` AS
+SELECT 
+    c.cpf, 
+    c.nome, 
+    c.email, 
+    t.numero AS telefone, 
+    e.cidade, 
+    e.uf
+FROM 
+    `mydb`.`Cliente` c
+JOIN 
+    `mydb`.`Telefone` t ON c.Telefone_idTelefone = t.idTelefone
+JOIN 
+    `mydb`.`Endereco` e ON c.Endereco_idEndereco = e.idEndereco;
+
+-- 2. View para vendas realizadas por cliente
+CREATE OR REPLACE VIEW `mydb`.`vVendasPorCliente` AS
+SELECT 
+    c.nome AS cliente, 
+    SUM(v.valor) AS total_vendas
+FROM 
+    `mydb`.`Venda` v
+JOIN 
+    `mydb`.`Cliente` c ON v.Cliente_cpf = c.cpf
+GROUP BY 
+    c.nome;
+
+-- 3. View para produtos vendidos em cada venda
+CREATE OR REPLACE VIEW `mydb`.`vProdutosVendidos` AS
+SELECT 
+    v.idVenda, 
+    p.nome AS produto, 
+    vp.valor, 
+    vp.desconto
+FROM 
+    `mydb`.`Venda` v
+JOIN 
+    `mydb`.`Venda_has_Produto` vp ON v.idVenda = vp.Venda_idVenda
+JOIN 
+    `mydb`.`Produto` p ON vp.Produto_idProduto = p.idProduto;
+
+-- 4. View para funcionários por departamento
+CREATE OR REPLACE VIEW `mydb`.`vFuncionariosPorDepartamento` AS
+SELECT 
+    d.nome AS departamento, 
+    f.nome AS funcionario
+FROM 
+    `mydb`.`Funcionario` f
+JOIN 
+    `mydb`.`Departamento` d ON f.Departamento_idDepartamento = d.idDepartamento;
+
+-- 5. View para dependentes de funcionários
+CREATE OR REPLACE VIEW `mydb`.`vDependentesFuncionarios` AS
+SELECT 
+    f.nome AS funcionario, 
+    d.nome AS dependente
+FROM 
+    `mydb`.`Funcionario` f
+JOIN 
+    `mydb`.`Dependente` d ON f.cpf = d.Funcionario_cpf;
+
+-- 6. View para promoções ativas
+CREATE OR REPLACE VIEW `mydb`.`vPromocoesAtivas` AS
+SELECT 
+    *
+FROM 
+    `mydb`.`Promocao`
+WHERE 
+    CURDATE() BETWEEN dataInicio AND dataFim;
+
+-- 7. View para fornecedores com produtos
+CREATE OR REPLACE VIEW `mydb`.`vFornecedoresProdutos` AS
+SELECT 
+    f.nome AS fornecedor, 
+    p.nome AS produto
+FROM 
+    `mydb`.`Fornecedor` f
+JOIN 
+    `mydb`.`Produto` p ON f.idFornecedor = p.idFornecedor;
+
+
+-- 8. View para total de compras por fornecedor
+CREATE OR REPLACE VIEW `mydb`.`vTotalComprasPorFornecedor` AS
+SELECT 
+    f.nome, 
+    SUM(c.frete) AS total_compras
+FROM 
+    `mydb`.`Compra` c
+JOIN 
+    `mydb`.`Fornecedor` f ON c.Fornecedor_idFornecedor = f.idFornecedor
+GROUP BY 
+    f.nome;
+
+-- 9. View para salário médio por cargo
+CREATE OR REPLACE VIEW `mydb`.`vSalarioMedioPorCargo` AS
+SELECT 
+    c.nome, 
+    AVG(f.salario) AS salario_medio
+FROM 
+    `mydb`.`Funcionario` f
+JOIN 
+    `mydb`.`Cargo` c ON f.Cargo_cbo = c.cbo
+GROUP BY 
+    c.nome;
+
+-- 10. View para total de vendas por mês
+CREATE OR REPLACE VIEW `mydb`.`vTotalVendasPorMes` AS
+SELECT 
+    MONTH(v.data) AS mes, 
+    SUM(v.valor) AS total_vendas
+FROM 
+    `mydb`.`Venda` v
+GROUP BY 
+    MONTH(v.data);
