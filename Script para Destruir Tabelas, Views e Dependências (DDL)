@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS `Venda_has_Produto`;
+DROP TABLE IF EXISTS `Compra_has_Produto`;
+DROP TABLE IF EXISTS `Compra`;
+DROP TABLE IF EXISTS `Fornecedor`;
+DROP TABLE IF EXISTS `Promocao`;
+DROP TABLE IF EXISTS `Venda`;
+DROP TABLE IF EXISTS `Produto`;
+DROP TABLE IF EXISTS `Ferias`;
+DROP TABLE IF EXISTS `Dependente`;
+DROP TABLE IF EXISTS `Funcionario`;
+DROP TABLE IF EXISTS `Departamento`;
+DROP TABLE IF EXISTS `Cargo`;
+DROP TABLE IF EXISTS `Pagamento`;
+DROP TABLE IF EXISTS `Cliente`;
+DROP TABLE IF EXISTS `Endereco`;
+DROP TABLE IF EXISTS `Telefone`;
+DROP VIEW IF EXISTS `vw_Vendas_Detalhes_Cliente`;
