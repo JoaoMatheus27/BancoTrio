@@ -1,0 +1,26 @@
+-- Scripts para Alterar Estruturas das Tabelas (DDL)
+
+ALTER TABLE `Cliente` ADD COLUMN `dataCadastro` DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+ALTER TABLE `Venda` MODIFY `valor` DECIMAL(10,2);
+
+ALTER TABLE `Produto` CHANGE `descricao` `detalhes` VARCHAR(100);
+
+CREATE INDEX idx_email ON `Cliente`(`email`);
+
+ALTER TABLE `Funcionario` DROP COLUMN `nomeSocial`;
+
+RENAME TABLE `formaspag` TO `Pagto`;
+
+ALTER TABLE `Dependente` ADD CONSTRAINT fk_funcionario FOREIGN KEY (`Funcionario_cpf`) REFERENCES `Funcionario`(`cpf`);
+
+CREATE TABLE IF NOT EXISTS `Logs` (
+  `idLog` INT NOT NULL AUTO_INCREMENT,
+  `descricao` TEXT NOT NULL,
+  `data` DATETIME NOT NULL,
+  PRIMARY KEY (`idLog`)
+) ENGINE = InnoDB;
+
+ALTER TABLE `Venda` ADD COLUMN `status` ENUM('ativo', 'cancelado') DEFAULT 'ativo';
+
+ALTER TABLE `Produto` CHANGE `preço` `preco` DECIMAL(7,2);
